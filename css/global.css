@@ -11,15 +11,26 @@ body, input{
 	max-width: 600px;
 	text-align: center;
 	margin: 0 auto;
+	color: #FFFFFF;
+	font-family: "Tahoma", Geneva, sans-serif;
 }
 
 input{
-	padding: 10px;
-	background-color: #fff;
+	padding: 10px;	
 	border: 1px solid #ccc;
-	margin: 0;	
+	margin: 0;		
 }
 
-input[type="url"] {
-	width: 300px;
+input[type="url"]{
+	width: 300px;	
+	background-color: #FFF8DC;	
+}
+
+input[type="submit"]{
+	background-color: #808080;
+	font-weight: bold;
+	color: #FFFFFF;
+	font-family: "Tahoma", Geneva, sans-serif;
+	border:none;
+	cursor:pointer;	
 }
