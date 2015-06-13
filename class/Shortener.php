@@ -1,12 +1,11 @@
 <?php
 
-class Shortener extends mysqli{
-	public $db;
+session_start();
+require_once 'db.php';
+$sql = db::getInstance();
 
-	public function _construct(){		//for demo purposes
-		$this->db = mysqli_connect('localhost', 'root', '', 'website');		
-	}
-	
+class Shortener{	
+
 	protected function generateCode($num){
 		return base_convert($num, 10, 36);
 	}
@@ -17,23 +16,23 @@ class Shortener extends mysqli{
 		if(!filter_var($url, FILTER_VALIDATE_URL)){
 			return '';
 		}
-		Shortener::_construct();		       
-		$url = mysqli_escape_string($this->db, $url);
-						
+		$sql = db::getInstance();
+		//$url = $sql->mysql_escape_string($url);
+					
 		//Check if URL Exist
-		$exist = $this->db->query("SELECT code FROM links WHERE url = '{$url}'");
+		$exist = $sql->query("SELECT code FROM links WHERE url = '{$url}'");
 
 		if($exist->num_rows){
 			return $exist->fetch_object()->code;			
 		}else{
 			//Insert record without a code
-			$insert = $this->db->query("INSERT INTO links (url, created) VALUES ('{$url}', NOW())");
+			$insert = $sql->query("INSERT INTO links (url, created) VALUES ('{$url}', NOW())");
 
 			// Generate a code based on inserted ID
-			$code = $this->generateCode($this->db->insert_id);
+			$code = $this->generateCode($sql->insert_id);
 
 			// Update record with the generated code
-			$this->db->query("UPDATE links SET code = '{$code}' WHERE url = '{$url}'");
+			$sql->query("UPDATE links SET code = '{$code}' WHERE url = '{$url}'");
 
 			return $code;
 		}
@@ -41,10 +40,10 @@ class Shortener extends mysqli{
 	}
 
 	public function getUrl($code){
-		$this->_construct();
-
-		$code = mysqli_escape_string($this->db, $code);
-		$code = $this->db->query("SELECT url FROM links WHERE code = '$code'");
+		
+		$sql = db::getInstance();
+		//$code = mysql_escape_string($sql, $code);
+		$code = $sql->query("SELECT url FROM links WHERE code = '{$code}'");
 
 		if ($code->num_rows){
 			return $code->fetch_object()->url;
