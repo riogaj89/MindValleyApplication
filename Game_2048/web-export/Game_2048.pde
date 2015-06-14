@@ -5,7 +5,7 @@ void setup() {
   size(500,500);
   size(len, len);
   restart();
-  textFont(createFont("Lucida Console",40));
+  textFont(createFont("Courier",40));
 }
 void restart() {
   b = new int[4][4];
@@ -105,7 +105,7 @@ void draw() {
     fill(0);
     textAlign(CENTER);
     textSize(30);
-    text("Game Over! Click to restart", 0,height/2,width,50);
+    text("Gameover! Click to restart", 0,height/2,width,50);
     if(mousePressed) restart();
   }
 }
@@ -170,6 +170,7 @@ int[][] go(int dy, int dx) {
   animStart = frameCount;
   return bak;
 }
+
 
 
 
